@@ -5,10 +5,7 @@ import deviceVelocity from './device-velocity.json' with { type: 'json' };
 import geoRestriction from './geo-restriction.json' with { type: 'json' };
 import impossibleTravel from './impossible-travel.json' with { type: 'json' };
 import killPausedStreams from './kill-paused-streams.json' with { type: 'json' };
-import mediaAdded from './media-added.json' with { type: 'json' };
-import mediaUpgraded from './media-upgraded.json' with { type: 'json' };
 import newDevice from './new-device.json' with { type: 'json' };
-import newsletterFailed from './newsletter-failed.json' with { type: 'json' };
 import no4kTranscodes from './no-4k-transcodes.json' with { type: 'json' };
 import pausedTooLong from './paused-too-long.json' with { type: 'json' };
 import pluginUpdate from './plugin-update.json' with { type: 'json' };
@@ -31,11 +28,8 @@ export const BUILTIN_ENVELOPES: TemplateEnvelope[] = [
   streamEnded,
   transcodeStarted,
   pausedTooLong,
-  mediaAdded,
-  mediaUpgraded,
   newDevice,
   trustScoreChanged,
-  newsletterFailed,
   serverDown,
   serverUp,
   pluginUpdate,

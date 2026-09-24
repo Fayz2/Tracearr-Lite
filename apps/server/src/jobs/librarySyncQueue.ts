@@ -565,6 +565,23 @@ export async function scheduleAutoSync(): Promise<void> {
     throw new Error('Library sync queue not initialized');
   }
 
+  if (process.env.DISABLE_LIBRARY_SYNC === 'true') {
+    // Remove any repeatable job scheduler left over from before this flag was
+    // set - BullMQ schedulers live in Redis and keep firing on their own
+    // otherwise, independent of whether this function runs again.
+    const existingSchedulers = await librarySyncQueue.getJobSchedulers();
+    for (const scheduler of existingSchedulers) {
+      await librarySyncQueue.removeJobScheduler(scheduler.key);
+    }
+    console.log(
+      `[LibrarySync] DISABLE_LIBRARY_SYNC=true - skipping auto-sync scheduling` +
+        (existingSchedulers.length > 0
+          ? ` and removed ${existingSchedulers.length} stale scheduler(s)`
+          : '')
+    );
+    return;
+  }
+
   // Query all servers from database
   const allServers = await db.select({ id: servers.id, name: servers.name }).from(servers);
 

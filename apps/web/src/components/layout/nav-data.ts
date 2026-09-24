@@ -56,18 +56,6 @@ export const navigation: NavSection[] = [
     ],
   },
   {
-    labelKey: 'media',
-    items: [
-      { nameKey: 'overview', href: '/media', icon: Library },
-      { nameKey: 'mediaBrowse', href: '/media/browse', icon: LayoutGrid },
-      { nameKey: 'mediaGenres', href: '/media/genres', icon: Tags },
-      { nameKey: 'quality', href: '/library/quality', icon: Sparkles },
-      { nameKey: 'storage', href: '/library/storage', icon: HardDrive },
-      { nameKey: 'watch', href: '/library/watch', icon: Eye },
-      { nameKey: 'requests', href: '/requests', icon: Inbox, requiresSeerr: true },
-    ],
-  },
-  {
     labelKey: 'manage',
     items: [
       { nameKey: 'users', href: '/users', icon: Users },

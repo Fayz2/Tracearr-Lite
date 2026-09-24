@@ -5,7 +5,6 @@ import { FieldGroup } from '@/components/ui/field';
 import { AutosaveNumberField, AutosaveSwitchField } from '@/components/ui/autosave-field';
 import { SettingsSection } from '@/components/settings/shell/SettingsSection';
 import { UpdateChecksCard } from '@/components/settings/general/UpdateChecksCard';
-import { ImageCacheCard } from '@/components/settings/general/ImageCacheCard';
 import { useSettings } from '@/hooks/queries';
 import { TEXT_INPUT_DELAY, useDebouncedSave } from '@/hooks/useDebouncedSave';
 
@@ -97,8 +96,6 @@ export function Behavior() {
       </Card>
 
       <UpdateChecksCard />
-
-      <ImageCacheCard />
     </SettingsSection>
   );
 }

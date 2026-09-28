@@ -143,12 +143,7 @@ import {
   startImagePrecacheWorker,
   shutdownImagePrecacheQueue,
 } from './jobs/imagePrecacheQueue.js';
-import {
-  initVersionCheckQueue,
-  startVersionCheckWorker,
-  scheduleVersionChecks,
-  shutdownVersionCheckQueue,
-} from './jobs/versionCheckQueue.js';
+import { shutdownVersionCheckQueue } from './jobs/versionCheckQueue.js';
 import {
   initInactivityCheckQueue,
   startInactivityCheckWorker,
@@ -992,16 +987,7 @@ async function initializeServices(app: FastifyInstance) {
   }
   startImageCacheSweepTimer();
 
-  // Initialize version check queue (uses Redis for job storage and caching)
-  try {
-    initVersionCheckQueue(redisUrl, app.redis, pubSubService.publish.bind(pubSubService));
-    startVersionCheckWorker();
-    void scheduleVersionChecks();
-    app.log.info('Version check queue initialized');
-  } catch (err) {
-    app.log.error({ err }, 'Failed to initialize version check queue');
-    // Don't throw - version checks are non-critical
-  }
+  // Tracearr update checks against GitHub releases are intentionally disabled here.
 
   // Registers the rule subscribers; the inactivity worker below dispatches into them.
   initializePoller(cacheService, pubSubService);

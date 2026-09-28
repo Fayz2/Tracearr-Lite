@@ -120,9 +120,6 @@ export function ServerRow({
               {t('servers.added', { date: format(new Date(server.createdAt), 'MMM d, yyyy') })}
             </p>
             <ServerVersionLine server={server} />
-            {requestService && (
-              <RequestServiceLine server={server} service={requestService.service} />
-            )}
 
             {server.type !== 'plex' && (
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
@@ -175,10 +172,6 @@ export function ServerRow({
           </ItemContent>
 
           <ItemActions>
-            <Button variant="ghost" size="sm" onClick={onSync} disabled={isSyncing}>
-              <RefreshCw className={cn(isSyncing && 'animate-spin')} />
-              {t('common:actions.sync')}
-            </Button>
             <TooltipIconButton
               label={t('common:actions.remove')}
               icon={Trash2}

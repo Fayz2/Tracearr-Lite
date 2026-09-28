@@ -74,6 +74,10 @@ export function recordLibraryEvent(event: LibraryChangeEvent): void {
 }
 
 function openSyncWindow(event: LibraryChangeEvent): void {
+  if (process.env.DISABLE_LIBRARY_SYNC === 'true') {
+    return; // event-triggered syncs disabled; playback/session tracking is unaffected
+  }
+
   if (pendingWindows.has(event.serverId)) {
     return; // a window is already open for this server; this event rides along
   }

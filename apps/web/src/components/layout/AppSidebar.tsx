@@ -92,7 +92,7 @@ function VersionDisplay() {
           }}
           title={t('settings:whatsNew.openNotes')}
           aria-label={`${t('settings:whatsNew.openNotes')}: ${displayVersion}`}
-          className="ring-sidebar-ring text-muted-foreground hover:text-foreground cursor-pointer text-xs outline-hidden transition-colors focus-visible:ring-2"
+          className="hidden ring-sidebar-ring text-muted-foreground hover:text-foreground cursor-pointer text-xs outline-hidden transition-colors focus-visible:ring-2"
         >
           {displayVersion}
           {version.current.isPrerelease && (
@@ -102,7 +102,7 @@ function VersionDisplay() {
         {version.updateAvailable && version.latest && (
           <Badge
             variant="secondary"
-            className="h-5 cursor-pointer gap-1 bg-green-500/10 text-green-600 hover:bg-green-500/20 dark:text-green-400"
+            className="hidden h-5 cursor-pointer gap-1 bg-green-500/10 text-green-600 hover:bg-green-500/20 dark:text-green-400"
             onClick={() => setDialogOpen(true)}
           >
             <ArrowUpCircle className="h-3 w-3" />

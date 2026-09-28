@@ -9,6 +9,7 @@ import {
   TRIGGERS,
   TRIGGER_TYPES,
   type ActionType,
+  type Destination,
   type TriggerType,
 } from '@tracearr/shared';
 import { actionDescription, actionLabel } from './actionDefinitions';
@@ -42,6 +43,30 @@ function splitSynonyms(value: string): string[] {
 export const isKnownTrigger = (type: string): type is TriggerType => type in TRIGGERS;
 
 /**
+ * Triggers still recognized (existing automations keep working, `isKnownTrigger`
+ * still passes) but no longer offered as a choice when starting a new one.
+ */
+const HIDDEN_FROM_PICKER: ReadonlySet<TriggerType> = new Set([
+  'media.added',
+  'media.upgraded',
+  'newsletter.sent',
+  'newsletter.failed',
+  'tracearr.update_available',
+]);
+
+/**
+ * Destination types suppressed everywhere in automations — the destination picker,
+ * the "In plain words" sentence, and the summary card. A rule that already sends to
+ * one of these keeps the id, but nothing resolves its name, so it renders nowhere.
+ */
+export const HIDDEN_DESTINATION_TYPES: ReadonlySet<Destination['type']> = new Set(['push']);
+
+/** The destinations still eligible to be picked or named anywhere in automations. */
+export function visibleDestinations(destinations: readonly Destination[]): Destination[] {
+  return destinations.filter((destination) => !HIDDEN_DESTINATION_TYPES.has(destination.type));
+}
+
+/**
  * Most triggers read in a picker exactly as they read in the sentence, so the label
  * is that clause capitalised. The two that carry a threshold name themselves.
  */
@@ -53,7 +78,7 @@ export function triggerLabel(t: Translate, type: TriggerType): string {
 }
 
 export function triggerPickerEntries(t: Translate): NodePickerEntry[] {
-  return TRIGGER_TYPES.map((type) => ({
+  return TRIGGER_TYPES.filter((type) => !HIDDEN_FROM_PICKER.has(type)).map((type) => ({
     value: type,
     label: triggerLabel(t, type),
     description: t(`automations.catalog.triggers.${TRIGGER_KEYS[type]}.description`),

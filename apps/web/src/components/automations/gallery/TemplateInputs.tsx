@@ -10,6 +10,7 @@ import {
   describeAutomation,
   describeTemplate,
   isUnbound,
+  visibleDestinations,
   type DescribeFragment,
   type DescribeRefs,
   type TemplateVersionBody,
@@ -55,7 +56,10 @@ export function useDescribeRefs(): { refs: DescribeRefs; unitSystem: UnitSystem 
     () => ({
       servers: Object.fromEntries(servers.map((server) => [server.id, server.name])),
       destinations: Object.fromEntries(
-        (destinations ?? []).map((destination) => [destination.id, destination.name])
+        visibleDestinations(destinations ?? []).map((destination) => [
+          destination.id,
+          destination.name,
+        ])
       ),
       countries: Object.fromEntries(
         (filterOptions?.countries ?? []).map((country) => [country.code, country.name])

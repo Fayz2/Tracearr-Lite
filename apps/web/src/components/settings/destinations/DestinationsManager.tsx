@@ -7,6 +7,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { ItemGroup } from '@/components/ui/item';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDestinations } from '@/hooks/queries/useDestinations';
+import { visibleDestinations } from '@/lib/automations';
 import { DestinationRow } from './DestinationRow';
 import { DestinationDialog } from './DestinationDialog';
 
@@ -27,7 +28,9 @@ export function DestinationsManager() {
     );
   }
 
-  const rows = [...(destinations ?? [])].sort((a, b) => Number(b.builtin) - Number(a.builtin));
+  const rows = visibleDestinations(destinations ?? []).sort(
+    (a, b) => Number(b.builtin) - Number(a.builtin)
+  );
 
   const addButton = (
     <Button onClick={() => setDialog({ mode: 'create' })}>

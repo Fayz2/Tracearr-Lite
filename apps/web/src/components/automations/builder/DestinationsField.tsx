@@ -14,6 +14,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { DestinationDialog } from '@/components/settings/destinations/DestinationDialog';
 import { iconFor } from '@/components/settings/destinations/destinationIcons';
 import { useDestinations } from '@/hooks/queries/useDestinations';
+import { HIDDEN_DESTINATION_TYPES } from '@/lib/automations';
 import { cn } from '@/lib/utils';
 
 interface DestinationsFieldProps {
@@ -46,9 +47,14 @@ export function DestinationsField({ value, onChange, label, labelledBy }: Destin
     return <Skeleton className="h-8 w-64" />;
   }
 
-  const rows = [...(destinations ?? [])].sort(byBuiltinThenName);
+  const all = destinations ?? [];
+  const hiddenIds = new Set(
+    all.filter((row) => HIDDEN_DESTINATION_TYPES.has(row.type)).map((row) => row.id)
+  );
+  const rows = all.filter((row) => !hiddenIds.has(row.id)).sort(byBuiltinThenName);
   // A rule can outlive the destination it sends to; keep those ids visible so they can be dropped.
-  const missingIds = value.filter((id) => !rows.some((row) => row.id === id));
+  // A hidden-type id isn't "missing": it is suppressed on purpose, so it gets no badge either.
+  const missingIds = value.filter((id) => !rows.some((row) => row.id === id) && !hiddenIds.has(id));
 
   const addButton = (
     <Button type="button" variant="outline" size="sm" onClick={() => setAddOpen(true)}>

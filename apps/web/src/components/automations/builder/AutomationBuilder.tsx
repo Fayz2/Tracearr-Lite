@@ -17,6 +17,7 @@ import {
   canEnforceAcrossServers,
   describeAutomation,
   scopeToPayload,
+  visibleDestinations,
   type AutomationDraft,
   type DescribeRefs,
 } from '@/lib/automations';
@@ -192,7 +193,10 @@ export function AutomationBuilder({ automation, draft }: AutomationBuilderProps)
       ),
       accounts,
       destinations: Object.fromEntries(
-        (destinations ?? []).map((destination) => [destination.id, destination.name])
+        visibleDestinations(destinations ?? []).map((destination) => [
+          destination.id,
+          destination.name,
+        ])
       ),
     };
   }, [servers, filterOptions, destinations, automation]);
